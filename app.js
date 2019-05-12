@@ -11,6 +11,15 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 
+const server = ["10.10.10.1 ", // domain1-1 172.17.12.3
+"172.17.12.4", // domain 1-2
+"172.17.12.5" // domain 1-3,
+"172.17.12.6", // domain 3-7
+"172.17.12.7", // domain 3-8,
+"172.17.11.4", // domain 2-4
+"172.17.11.5", // domain 2-5,
+"172.17.11.6" // domain 2-6]
+
 app.use(bodyParser.json());
 app.disable('etag');
 app.use(express.static(path.join(__dirname, 'public')));
