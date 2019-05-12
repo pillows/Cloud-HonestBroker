@@ -1,110 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style type="text/css">
 
-    .circle_green {
-
-      padding: 10px 11px;
-      background: green;
-      height: 2px;
-      border-radius: 50%;
-      width: 2px;
-      display:inline-block;
-    }
-
-    .circle_red {
-
-      padding: 10px 11px;
-      background: red;
-      height: 2px;
-      border-radius: 50%;
-      width: 2px;
-      display:inline-block;
-    }
-
-    .page{
-  max-width: 60em;
-  margin: 0 auto;
-}
-table th,
-table td{
-  text-align: left;
-}
-table.layout{
-  width: 100%;
-  border-collapse: collapse;
-}
-table.display{
-  margin: 1em 0;
-}
-table.display th,
-table.display td{
-  border: 1px solid #B3BFAA;
-  padding: .5em 1em;
-}
-
-table.display th{ background: #D5E0CC; }
-table.display td{ background: #fff; }
-
-table.responsive-table{
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 30em){
-    table.responsive-table{
-      box-shadow: none;
-    }
-    table.responsive-table thead{
-      display: none;
-    }
-  table.display th,
-  table.display td{
-    padding: .5em;
-  }
-
-  table.responsive-table td:nth-child(1):before{
-    content: 'Number';
-  }
-  table.responsive-table td:nth-child(2):before{
-    content: 'Name';
-  }
-  table.responsive-table td:nth-child(1),
-  table.responsive-table td:nth-child(2){
-    padding-left: 25%;
-  }
-  table.responsive-table td:nth-child(1):before,
-  table.responsive-table td:nth-child(2):before{
-    position: absolute;
-    left: .5em;
-    font-weight: bold;
-  }
-
-    table.responsive-table tr,
-    table.responsive-table td{
-        display: block;
-    }
-    table.responsive-table tr{
-        position: relative;
-        margin-bottom: 1em;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
-    }
-    table.responsive-table td{
-        border-top: none;
-    }
-    table.responsive-table td.jobdata{
-        background: #D5E0CC;
-        border-top: 1px solid #B3BFAA;
-    }
-    table.responsive-table td.actions{
-        position: absolute;
-        top: 0;
-        right: 0;
-        border: none;
-        background: none;
-    }
-}
-    </style>
+    <link href="css/style.css" rel="stylesheet"/>
     <link href="css/skeleton.css" rel="stylesheet"/>
 </head>
 <body>
@@ -213,7 +111,7 @@ table.responsive-table{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td class="jobdata">Shelly</td>
                         <td class="jobdata">Bio lab results</td>
                         <td class="jobdata">500MB</td>
@@ -244,7 +142,7 @@ table.responsive-table{
                         <td class="jobdata">DCL1</td>
                         <td class="jobdata">0:00</td>
 
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -283,27 +181,64 @@ let populateTable = (jobs) => {
     console.log(jobs)
     let table = document.getElementById("jobs");
     for(let i = 0; i < jobs.length; i++){
+        // console.log(jobs[i].job_owner)
+        let row = document.createElement("tr")
+        // table.appendChild(row)
+        //
+        let person = document.createElement('td');
+        person.innerHTML = jobs[i].job_owner
+        let job_name = document.createElement('td');
+        job_name.innerHTML = jobs[i].job_name
 
+        let size_of_job =  document.createElement('td');
+        size_of_job.innerHTML = jobs[i].job_size
+        let sspec = document.createElement('td');
+        sspec.innerHTML = jobs[i].job_security
+        let processing_time = document.createElement('td');
+        processing_time.innerHTML = "0"
+
+        row.appendChild(person)
+        row.appendChild(job_name)
+        row.appendChild(size_of_job)
+        row.appendChild(sspec)
+        row.appendChild(processing_time)
+
+        table.appendChild(row)
+
+    }
+    return "1"
+}
+
+let cpuUpdate = (servers) => {
+    for(let i = 0; i < servers.length; i++){
+        let cpu = servers[i].cpu;
+        let server = document.getElementById(servers[i].name)
+        let cpuStat = server.getElementsByTagName("div")
+        cpuStat.innerHTML = cpu
     }
 }
 
 let updateStats = (data) => {
 
-
+    // let jobs = data.jobs
+    // populateTable(jobs)
     // console.log(data[0])
-    for(let i = 0; i < data[0].length; i++){
-        let domain = data[0][i].domain
-        for(let j = 0; j < data[0][i].vms.length; j++){
+    for(let i = 0; i < data.status.length; i++){
+        let domain = data.status[i].domain
+        for(let j = 0; j < data.status[i].vms.length; j++){
 
-            let vm = document.getElementById(data[0][i].vms[j].name)
-            let busy = data[0][i].vms[j].busy
+            let vm = document.getElementById(data.status[i].vms[j].name)
+            let busy = data.status[i].vms[j].busy
             // console.log("busy status ", busy)
-            let layers = data[0][i].layers
+            let layers = data.status[i].layers
+
             // console.log(jobs)
 
             // console.log(document.getElementById(domain))
             busyCheck(vm, busy);
             layerUpdate(domain, layers)
+
+            // cpuUpdate(cpus)
 
             // console.log(data[i].layers)
             // console.log(vm.classList)
@@ -325,7 +260,7 @@ element.addEventListener('click', function() { /* do stuff here*/
     // Examine the text in the response
     response.json().then(function(data) {
       updateStats(data);
-      populateTable(data[1])
+      populateTable(data.jobs)
     });
   }
 )
