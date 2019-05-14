@@ -1,31 +1,45 @@
 {
     "status":[
     {
-        "domain":"domain1",
+        "domain":"1",
         "vms":[
-            {"name":"vm1", "busy":true},
-            {"name":"vm2", "busy":true},
-            {"name":"vm3", "busy":false}
+            { "name":"vm1", "CPU": 0.25, "Rspec": 0, "busy":true, "IP": "172.17.12.3", "port": "25410", "RAM": 500 },
+            { "name":"vm2", "CPU": 0.25, "Rspec": 0, "busy":true, "IP": "172.17.12.4", "port": "25411", "RAM": 500  },
+            { "name":"vm3", "CPU": 0.25, "Rspec": 0, "busy":false, "IP": "172.17.12.5", "port": "25412", "RAM": 500  }
         ],
-        "layers":[0.25, 0.1]
+        "bandwidth":{
+            "1-1": { "L2": 0, "L3": 0},
+            "1-2": { "L2": 1, "L3": 0.25 },
+            "1-3": { "L2": 1, "L3": 0.25 }
+        }
     },
     {
-        "domain":"domain2",
+        "domain":"2",
         "vms":[
-            {"name":"vm4", "busy":true},
-            {"name":"vm5", "busy":true},
-            {"name":"vm6", "busy":false}
+            { "name":"vm4", "CPU": 0.25, "Rspec": 0.70, "busy":true, "IP": "172.17.11.4", "port": "25410", "RAM": 500  },
+            { "name":"vm5", "CPU": 0.25, "Rspec": 1, "busy":true, "IP": "172.17.12.5", "port": "25411", "RAM": 500  },
+            { "name":"vm6", "CPU": 0.25, "Rspec": 0.30, "busy":false, "IP": "172.17.12.6", "port": "25412", "RAM": 500  }
         ],
-        "layers":[0.25, 0.1]
+        "bandwidth":{
+            "2-1": { "L2": 1, "L3": 0.25 },
+            "2-2": { "L2": 0, "L3": 0},
+            "2-3": { "L2": 1, "L3": 0.25 }
+
+        }
     },
     {
-        "domain":"domain3",
+        "domain":"3",
         "vms":[
-            {"name":"vm7", "busy":true},
-            {"name":"vm8", "busy":true},
-            {"name":"vm9", "busy":false}
+            { "name":"vm7", "CPU": 0.25, "Rspec": 1, "busy":true, "IP": "172.17.12.6", "port": "25413", "RAM": 500  },
+            { "name":"vm8", "CPU": 0.50, "Rspec": 0.55, "busy":true, "IP": "172.17.12.7", "port": "25414", "RAM": 500  },
+            { "name":"vm9", "CPU": 0.60, "Rspec": 0.15, "busy":false, "IP": "172.17.12.8", "port": "25415", "RAM": 500  }
         ],
-        "layers":[0.25, 0.1]
+        "bandwidth":{
+            "3-1": { "L2": 1, "L3": 0.25 },
+            "3-2": { "L2": 1, "L3": 0.25 },
+            "3-3": { "L2": 0, "L3": 0}
+        }
+
     }],
 
     "jobs":[
@@ -43,6 +57,7 @@
         {"job_owner":"Jeffrey", "job_name":"Bio lab results", "job_security": "DCL1", "job_size":"500MB", "job_timestamp":"2344123123"},
         {"job_owner":"Shelly", "job_name":"Bio lab results", "job_security": "DCL1", "job_size":"500MB", "job_timestamp":"2344123123"},
         {"job_owner":"Jeffrey", "job_name":"Bio lab results", "job_security": "DCL1", "job_size":"500MB", "job_timestamp":"2344123123"}
+
 
     ]
 }
