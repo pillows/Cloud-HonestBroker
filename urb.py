@@ -1,7 +1,7 @@
 import socket
 
 URB_SOCKET = socket.socket()
-URB_SOCKET.bind(('', 'PORT'))
+URB_SOCKET.bind(('', '80085')) #bobs
 
 VMS = [
     { 'IP': '172.17.12.3', 'NAME': '1-1' },
