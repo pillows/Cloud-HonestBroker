@@ -24,29 +24,32 @@
 <div class="container">
     <div class="row">
         <div class="four columns">
+            <div id="last_updated">
+            Last Updated: <span id="current_time"></span>
+            </div>
             <div id="domain1">
                 <span>Domain 1</span>
 
                     <div>
-                        VM1:<span id="vm1" class="circle_green">
+                        VM1 (172.17.12.3):<span id="vm1" class="circle_green">
                         </span>
                     </div>
 
                     <div>
-                        VM2:<span id="vm2" class="circle_red">
+                        VM2 (172.17.12.4):<span id="vm2" class="circle_red">
                         </span>
                     </div>
                     <div>
-                        VM3:<span id="vm3" class="circle_green">
+                        VM3 (172.17.12.5):<span id="vm3" class="circle_green">
                         </span>
                     </div>
 
 
                     <div style="padding-left:20px"><span>Layer 2</span>
-                        <meter class="layer2" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used"></span>% used
                     </div>
                     <div style="padding-left:20px"><span>Layer 3</span>
-                        <meter class="layer3" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used"></span>% used
                     </div>
 
             </div>
@@ -54,46 +57,46 @@
             <div id="domain2">
                 <span>Domain 2</span>
                 <div>
-                    VM1:<span id="vm4" class="circle_green">
+                    VM1 (172.17.11.4):<span id="vm4" class="circle_green">
                     </span>
                 </div>
 
                 <div>
-                    VM2:<span id="vm5" class="circle_red">
+                    VM2 (172.17.11.5):<span id="vm5" class="circle_red">
                     </span>
                 </div>
                 <div>
-                    VM3:<span id="vm6" class="circle_green">
+                    VM3 (172.17.11.6):<span id="vm6" class="circle_green">
                     </span>
                 </div>
                 <div style="padding-left:20px"><span>Layer 2</span>
-                    <meter class="layer2" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                    <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">25</span>% used
                 </div>
                 <div style="padding-left:20px"><span>Layer 3</span>
-                    <meter class="layer3" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                    <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">25</span>% used
                 </div>
             </div>
             <br  />
             <div id="domain3">
                 <span>Domain 3</span>
                 <div>
-                    VM1:<span id="vm7" class="circle_green">
+                    VM1 (172.17.12.6):<span id="vm7" class="circle_green">
                     </span>
                 </div>
 
                 <div>
-                    VM2:<span id="vm8" class="circle_red">
+                    VM2 (172.17.12.7):<span id="vm8" class="circle_red">
                     </span>
                 </div>
                 <div>
-                    VM3:<span id="vm9" class="circle_green">
+                    VM3 (172.17.12.8):<span id="vm9" class="circle_green">
                     </span>
                 </div>
                 <div style="padding-left:20px"><span>Layer 2</span>
-                    <meter class="layer2" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                    <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
                 </div>
                 <div style="padding-left:20px"><span>Layer 3</span>
-                    <meter class="layer3" style="" min="0" max="1" value=".25">25%</meter> 25% used
+                    <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
                 </div>
 
                 <button id="refresh">Refresh</button>
@@ -107,6 +110,9 @@
                         <th>Job name</th>
                         <th>Size of Job</th>
                         <th>Security Specs</th>
+                        <th>RSpec</th>
+                        <th>Origin Domain</th>
+                        <th>Destination Domain</th>
                         <th>Current Processing time</th>
                     </tr>
                 </thead>
@@ -151,129 +157,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
-
-let busyCheck = (vm, busy) => {
-    if(busy){
-        if(vm.classList.contains("circle_green")){
-            vm.className = "circle_red";
-        }
-    }
-    else{
-        if(vm.classList.contains("circle_red")){
-            vm.className = "circle_green";
-        }
-    }
-}
-
-let layerUpdate = (domain, layer) => {
-    let meters = document.getElementById(domain).getElementsByTagName("meter")
-    // console.log(layer)
-    for(let i = 0; i < 2; i++){
-        meters[i].value = layer[i]
-        // console.log(meters[i].value);
-        // console.log(layer[i])
-    }
-
-}
-
-let populateTable = (jobs) => {
-    console.log(jobs)
-    let table = document.getElementById("jobs");
-    for(let i = 0; i < jobs.length; i++){
-        // console.log(jobs[i].job_owner)
-        let row = document.createElement("tr")
-        // table.appendChild(row)
-        //
-        let person = document.createElement('td');
-        person.innerHTML = jobs[i].job_owner
-        let job_name = document.createElement('td');
-        job_name.innerHTML = jobs[i].job_name
-
-        let size_of_job =  document.createElement('td');
-        size_of_job.innerHTML = jobs[i].job_size
-        let sspec = document.createElement('td');
-        sspec.innerHTML = jobs[i].job_security
-        let processing_time = document.createElement('td');
-        processing_time.innerHTML = "0"
-
-        row.appendChild(person)
-        row.appendChild(job_name)
-        row.appendChild(size_of_job)
-        row.appendChild(sspec)
-        row.appendChild(processing_time)
-
-        table.appendChild(row)
-
-    }
-    return "1"
-}
-
-let cpuUpdate = (servers) => {
-    for(let i = 0; i < servers.length; i++){
-        let cpu = servers[i].cpu;
-        let server = document.getElementById(servers[i].name)
-        let cpuStat = server.getElementsByTagName("div")
-        cpuStat.innerHTML = cpu
-    }
-}
-
-let updateStats = (data) => {
-
-    // let jobs = data.jobs
-    // populateTable(jobs)
-    // console.log(data[0])
-    for(let i = 0; i < data.status.length; i++){
-        let domain = data.status[i].domain
-        for(let j = 0; j < data.status[i].vms.length; j++){
-
-            let vm = document.getElementById(data.status[i].vms[j].name)
-            let busy = data.status[i].vms[j].busy
-            // console.log("busy status ", busy)
-            let layers = data.status[i].layers
-
-            // console.log(jobs)
-
-            // console.log(document.getElementById(domain))
-            busyCheck(vm, busy);
-            layerUpdate(domain, layers)
-
-            // cpuUpdate(cpus)
-
-            // console.log(data[i].layers)
-            // console.log(vm.classList)
-
-        }
-    }
-}
-let element = document.getElementById("refresh");
-element.addEventListener('click', function() { /* do stuff here*/
-    fetch("/network-stats") // Call the fetch function passing the url of the API as a parameter
-    .then(
-  function(response) {
-    if (response.status !== 200) {
-      console.log('Looks like there was a problem. Status Code: ' +
-        response.status);
-      return;
-    }
-
-    // Examine the text in the response
-    response.json().then(function(data) {
-      updateStats(data);
-      populateTable(data.jobs)
-    });
-  }
-)
-.catch(function(err) {
-  console.log('Fetch Error :-S', err);
-});
-
-});
-
-
-
-
-
-</script>
+<script src="js/best.js"></script>
 </body>
 </html>
