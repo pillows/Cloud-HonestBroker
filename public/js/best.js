@@ -30,6 +30,7 @@ setInterval(function()
 
           updateStats(data);
           populateTable(data.jobs)
+          cpuUsage();
 
 
 
@@ -38,7 +39,7 @@ setInterval(function()
           console.log('Fetch Error :-S', err);
         });
     })
-}, 3000); //10000 milliseconds
+}, 1000); //10000 milliseconds
 
 
 
@@ -47,6 +48,35 @@ setInterval(function()
 //
 //
 // });
+
+let cpuUsage = () => {
+    fetch("/cpu-usage") // Call the fetch function passing the url of the API as a parameter
+    .then(
+      function(response) {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(data) {
+            // Date time code taken from here
+            // https://stackabuse.com/how-to-format-dates-in-javascript/
+            console.log("cpu stats ",data.result)
+
+            for(let i = 0; i < data.result.length; i++){
+                document.getElementById("cpu"+(i+1)).innerHTML = data.result[i].cpu.toFixed(2) + "% used"
+            }
+
+
+
+        })
+        .catch(function(err) {
+          console.log('Fetch Error :-S', err);
+        });
+    })
+}
 
 let busyCheck = (vm, busy) => {
     if(busy){
@@ -117,6 +147,7 @@ let populateTable = (jobs) => {
 
 let cpuUpdate = (servers) => {
     for(let i = 0; i < servers.length; i++){
+
         let cpu = servers[i].cpu;
         let server = document.getElementById(servers[i].name)
         let cpuStat = server.getElementsByTagName("div")

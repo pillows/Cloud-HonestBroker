@@ -10,20 +10,23 @@ const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const request = require('request');
+var async = require('async');
 
 const vms = [
-"172.17.12.3", // domain1-1 172.17.12.3
-"172.17.12.4", // domain 1-2 25411
-"172.17.12.5", // domain 1-3, 25412
-"172.17.12.6", // domain 3-7 25413
-"172.17.12.7", // domain 3-8, 25414
-"172.17.12.8", // domain 3-9, 25415
-"172.17.11.4", // domain 2-4 25410
-"172.17.11.5", // domain 2-5, 25411
-"172.17.11.6" // domain 2-6 25412
+    "10.10.2.2", // domain 1 - 1
+    "10.10.1.2", // domain 1 - 2
+    "10.10.1.1", // domain 1 - 3
+    "10.10.12.1", // domain 2 - 4
+    "10.10.4.2", // domain 2 - 5
+    "10.10.4.1",// domain 2 - 6
+    "10.10.11.2",// domain 3 - 7
+    "10.10.7.2",  // domain 3 - 8
+    "10.10.7.1", // domain 3 - 9
 ]
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 app.disable('etag');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,6 +45,39 @@ app.get('/', function (req, res) {
 
 app.get('/network-admin', function (req, res) {
     res.render('admin');
+});
+
+app.get('/cpu-usage', function (req, res) {
+    let cpudata = []
+    let listOfAsyncFunctions = [];
+    for(let i = 0; i < vms.length; i++){
+        // console.log("http://"+vms[i]+":3000/cpu")
+
+        (function(n){
+        // Construct an array of async functions with the expected
+        // function signature (one argument that is the callback).
+        listOfAsyncFunctions.push(function(callback){
+                // Note: async expects the first argument to callback to be an error
+
+                request("http://"+vms[i]+":3000/cpu", function(err, res, body) {
+                    // cpudata.push(body)
+                    // return err
+                    console.log(body)
+                    callback(null,JSON.parse(body));
+
+                });
+            })
+        })(i);
+
+    }
+
+    async.parallel(listOfAsyncFunctions,function (err,result) {
+        // console.log(result); // result will be the same order as listOfAsyncFunctions
+        console.log(result)
+        return res.json({"result":result})
+    });
+
+
 });
 
 app.get('/network-stats', function (req, res) {
@@ -92,12 +128,12 @@ app.get('/network-stats', function (req, res) {
 
 app.post('/', function(req, res) {
     let data = {
-        response: 'You sent: ' + req.body.message
+        response: 'You sent: ' + req.body
     };
 
     // Do something, like query a database or save data
 
-    res.status(200).send(data);
+    res.status(200).send(req.body);
 });
 
 module.exports = app;
