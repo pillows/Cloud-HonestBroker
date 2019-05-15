@@ -25,6 +25,37 @@ const vms = [
     "10.10.7.1", // domain 3 - 9
 ]
 
+const domainvm =
+[
+    {
+        "domain":"1",
+        "vm":[
+            {"vm1":"10.10.2.2"},
+            {"vm2":"10.10.1.2"},
+            {"vm3":"10.10.1.1"}
+        ]
+    },
+    {
+        "domain":"2",
+        "vm":[
+            {"vm4":"10.10.12.1"},
+            {"vm5":"10.10.4.2"},
+            {"vm6":"10.10.4.1"}
+        ]
+    },
+    {
+        "domain":"3",
+        "vm":[
+            {"vm7":"10.10.11.2"},
+            {"vm8":"10.10.7.2"},
+            {"vm9":"10.10.7.1"}
+        ]
+    }
+
+]
+
+let cpushelly = []
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.disable('etag');
@@ -62,7 +93,6 @@ app.get('/cpu-usage', function (req, res) {
                 request("http://"+vms[i]+":3000/cpu", function(err, res, body) {
                     // cpudata.push(body)
                     // return err
-                    console.log(body)
                     callback(null,JSON.parse(body));
 
                 });
@@ -73,7 +103,21 @@ app.get('/cpu-usage', function (req, res) {
 
     async.parallel(listOfAsyncFunctions,function (err,result) {
         // console.log(result); // result will be the same order as listOfAsyncFunctions
-        console.log(result)
+        let rawdata = fs.readFileSync('status.json');
+        let status = JSON.parse(rawdata);
+        let counter = 0;
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                status.status[i].vms[j].CPU = result[counter].cpu;
+                counter++;
+            }
+        }
+
+        let savedjson = fs.writeFileSync('status.json', JSON.stringify(status));
+        // console.log(status.status[0].vms[0].CPU)
+
+        // console.log(result)
+        cpushelly = result;
         return res.json({"result":result})
     });
 
@@ -84,44 +128,6 @@ app.get('/network-stats', function (req, res) {
 
     let rawdata = fs.readFileSync('status.json');
     let status = JSON.parse(rawdata);
-
-
-    // let status =
-    //     [
-    //         [{
-    //             "domain":"domain1",
-    //             "vms":[
-    //                 {"name":"vm1", "busy":true},
-    //                 {"name":"vm2", "busy":true},
-    //                 {"name":"vm3", "busy":false}
-    //             ],
-    //             "layers":[0.25, 0.1]
-    //         },
-    //         {
-    //             "domain":"domain2",
-    //             "vms":[
-    //                 {"name":"vm4", "busy":true},
-    //                 {"name":"vm5", "busy":true},
-    //                 {"name":"vm6", "busy":false}
-    //             ],
-    //             "layers":[0.25, 0.1]
-    //         },
-    //         {
-    //             "domain":"domain3",
-    //             "vms":[
-    //                 {"name":"vm7", "busy":true},
-    //                 {"name":"vm8", "busy":true},
-    //                 {"name":"vm9", "busy":false}
-    //             ],
-    //             "layers":[0.25, 0.1]
-    //         }
-    //     ],
-    //     [
-    //         {"job_owner":"Shelly", "job_name":"Bio lab results", "job_size":"500MB", "job_timestamp":"2344123123"}
-    //     ]
-    //
-    //
-    //     ]
 
     res.status(200).json(status)
 });

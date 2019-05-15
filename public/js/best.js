@@ -66,7 +66,7 @@ let cpuUsage = () => {
             console.log("cpu stats ",data.result)
 
             for(let i = 0; i < data.result.length; i++){
-                document.getElementById("cpu"+(i+1)).innerHTML = data.result[i].cpu.toFixed(2) + "% used"
+                document.getElementById("cpu"+(i+1)).innerHTML = (data.result[i].cpu*100).toFixed(2) + "% used"
             }
 
 
@@ -133,11 +133,23 @@ let populateTable = (jobs) => {
         let processing_time = document.createElement('td');
         processing_time.innerHTML = "0"
 
+        let job_origin = document.createElement('td');
+        job_origin.innerHTML = jobs[i].job_origin
+
+        let job_destination = document.createElement('td');
+        job_destination.innerHTML = jobs[i].job_destination
+
+        let job_processing = document.createElement('td');
+
+
         row.appendChild(person)
         row.appendChild(job_name)
         row.appendChild(size_of_job)
         row.appendChild(sspec)
         row.appendChild(processing_time)
+        row.appendChild(job_origin)
+        row.appendChild(job_destination)
+        row.appendChild(job_processing)
 
         table.appendChild(row)
 
