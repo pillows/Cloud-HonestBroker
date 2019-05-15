@@ -2,17 +2,17 @@ var status = require('./status.json')
 
 
 inc_req = {
-    job_owner:"Shelly", 
-    job_name:"Bio lab results", 
+    job_owner:"Shelly",
+    job_name:"Bio lab results",
     sspecs: 0,
-    job_security: "DCL1", 
-    job_size: 500, 
-    job_timestamp:"2344123123", 
+    job_security: "DCL1",
+    job_size: 500,
+    job_timestamp:"2344123123",
     proc_time: 0,
-    source: "3", 
+    source: "3",
 }
 
-function VMMatch(req) {
+function VMMatch(req, vm_cpu) {
     let potential_vms = []
 
     for(let domain of status.status){
@@ -20,7 +20,7 @@ function VMMatch(req) {
             let rspecs = vm['rspecs']
             let interdomain = 0
             let layer = "2"
-            
+
 
             //if interdomain
             if(req.source !== domain['domain']){
@@ -33,14 +33,17 @@ function VMMatch(req) {
                 let calc_cpu = ( req['job_size'] * 10 )/vm['RAM']
 
                 //calculate cpu on vm later, replace 0
-                if(calc_cpu >= 0){
+                console.log(vm_cpu[vm.name.substring(1)])
+                console.log('vmname', vm.name.substring(1))
+		        console.log("sdfsd ",)//[domain.domain-1]);
+                if(calc_cpu >= vm_cpu[vm.name.substring(2)]['cpu']){
                     let proc_time = req['job_size']/33
 
                     //factor in processing time for interdomain
                     if(interdomain){
                         if(parseInt(req['sspecs'] <= 0.25))
                             layer = "3"
-                        
+
                         let route_between_vms = domain['bandwidth'][domain['domain']+'-'+req['source']]
                         proc_time += req['job_size']/route_between_vms['L'+layer]
                     }
@@ -54,8 +57,8 @@ function VMMatch(req) {
         if(potential_vms.length){
             for(let vm of potential_vms){
                 if(vm['domain'] === req['source']){
-                    console.log(vm['vm']['name']) 
-                    return vm 
+                    console.log(vm['vm']['name'])
+                    return vm
                 }
             }
 
@@ -70,7 +73,4 @@ function VMMatch(req) {
 
 }
 
-VMMatch(inc_req)
 module.exports = {VMMatch: VMMatch}
-
-
