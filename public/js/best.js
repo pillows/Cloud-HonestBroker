@@ -21,7 +21,8 @@ setInterval(function()
                 month: 'short',
                 day: 'numeric',
                 hour: '2-digit',
-                minute: '2-digit'
+                minute: '2-digit',
+                second: '2-digit'
             };
 
             let current_time = now.toLocaleString('en-us', options);
@@ -61,12 +62,19 @@ let busyCheck = (vm, busy) => {
 }
 
 let layerUpdate = (domain, layer) => {
-    let meters = document.getElementById(domain).getElementsByTagName("meter")
-    // console.log(layer)
-    for(let i = 0; i < 2; i++){
-        meters[i].value = layer[i]
-        // console.log(meters[i].value);
-        // console.log(layer[i])
+    console.log("layers ", layer)
+    let meters = document.getElementById("domain"+domain).getElementsByTagName("meter")
+    let spans = document.getElementById("domain"+domain).getElementsByClassName("percentage_used")
+    //
+    // for(let i = 0; i < 3; i++){
+    //     meters[i].value = layer[domain + i+1].L2
+    // }
+
+    for(let i = 0; i < 3; i++){
+        meters[2*i].value = layer[domain + '-' + (i+1)].L2
+        meters[2*i + 1].value = layer[domain + '-' + (i+1)].L3
+        spans[2*i].innerHTML = (layer[domain + '-' + (i+1)].L2)*100 + " % used"
+        spans[2*i + 1].innerHTML = (layer[domain + '-' + (i+1)].L3)*100 + " % used"
     }
 
 }
@@ -128,7 +136,7 @@ let updateStats = (data) => {
             let vm = document.getElementById(data.status[i].vms[j].name)
             let busy = data.status[i].vms[j].busy
             // console.log("busy status ", busy)
-            let layers = data.status[i].layers
+            let layers = data.status[i].bandwidth
 
             // console.log(jobs)
 

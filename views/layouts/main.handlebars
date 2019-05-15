@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/skeleton.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div>
+    <span>Settings</span>
+
+    <div>
+        <span>Maximum numbers allowed in transit</span><input type="text" value="8"/>
+    </div>
+    <div>
+        <span>Largest filesize allowed for upload</span><input type="text" value="1GB"/>
+    </div>
+
+
+</div>
+
+<br  />
+<div class="container">
+    <div class="row">
+        <div class="six columns">
+            <div id="last_updated">
+            Last Updated: <span id="current_time"></span>
+            </div>
+            <div id="domain1">
+                <span>Domain 1</span>
+
+                    <div>
+                        VM1 (172.17.12.3):<span id="vm1" class="circle_green">
+                        </span>
+                    </div>
+
+                    <div>
+                        VM2 (172.17.12.4):<span id="vm2" class="circle_red">
+                        </span>
+                    </div>
+                    <div>
+                        VM3 (172.17.12.5):<span id="vm3" class="circle_green">
+                        </span>
+                    </div>
+
+
+                    <div style="display:inline-block;padding-left:20px">
+                        <span>Connection</span>
+                        <div style=""><span>Layer 2</span>
+                            <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                        <div style=""><span>Layer 3</span>
+                            <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                    </div>
+                    <div style="display:inline-block;padding-left:20px">
+                        <span>Connection</span>
+                        <div style=""><span>Layer 2</span>
+                            <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                        <div style=""><span>Layer 3</span>
+                            <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                    </div>
+                    <div style="display:inline-block;padding-left:20px">
+                        <span>Connection</span>
+                        <div style=""><span>Layer 2</span>
+                            <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                        <div style=""><span>Layer 3</span>
+                            <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                        </div>
+                    </div>
+
+            </div>
+            <br  />
+            <div id="domain2">
+                <span>Domain 2</span>
+                <div>
+                    VM1 (172.17.11.4):<span id="vm4" class="circle_green">
+                    </span>
+                </div>
+
+                <div>
+                    VM2 (172.17.11.5):<span id="vm5" class="circle_red">
+                    </span>
+                </div>
+                <div>
+                    VM3 (172.17.11.6):<span id="vm6" class="circle_green">
+                    </span>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+            </div>
+            <br  />
+            <div id="domain3">
+                <span>Domain 3</span>
+                <div>
+                    VM1 (172.17.12.6):<span id="vm7" class="circle_green">
+                    </span>
+                </div>
+
+                <div>
+                    VM2 (172.17.12.7):<span id="vm8" class="circle_red">
+                    </span>
+                </div>
+                <div>
+                    VM3 (172.17.12.8):<span id="vm9" class="circle_green">
+                    </span>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+                <div style="display:inline-block;padding-left:20px">
+                    <span>Connection</span>
+                    <div style=""><span>Layer 2</span>
+                        <meter class="layer2" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                    <div style=""><span>Layer 3</span>
+                        <meter class="layer3" style="" min="0" max="1" value=".25"></meter> <span class="percentage_used">% used</span>
+                    </div>
+                </div>
+
+                <button id="refresh">Refresh</button>
+            </div>
+        </div>
+        <div class="six columns">
+            <table id="jobs" class="layout display responsive-table">
+                <thead>
+                    <tr>
+                        <th>Person</th>
+                        <th>Job name</th>
+                        <th>Size of Job</th>
+                        <th>Security Specs</th>
+                        <th>RSpec</th>
+                        <th>Origin Domain</th>
+                        <th>Destination Domain</th>
+                        <th>Current Processing time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td class="jobdata">Shelly</td>
+                        <td class="jobdata">Bio lab results</td>
+                        <td class="jobdata">500MB</td>
+                        <td class="jobdata">DCL1</td>
+                        <td class="jobdata">0:00</td>
+
+                    </tr>
+                    <tr>
+                        <td class="jobdata">Shelly</td>
+                        <td class="jobdata">Bio lab results</td>
+                        <td class="jobdata">500MB</td>
+                        <td class="jobdata">DCL1</td>
+                        <td class="jobdata">0:00</td>
+
+                    </tr>
+                    <tr>
+                        <td class="jobdata">Shelly</td>
+                        <td class="jobdata">Bio lab results</td>
+                        <td class="jobdata">500MB</td>
+                        <td class="jobdata">DCL1</td>
+                        <td class="jobdata">0:00</td>
+
+                    </tr>
+                    <tr>
+                        <td class="jobdata">Shelly</td>
+                        <td class="jobdata">Bio lab results</td>
+                        <td class="jobdata">500MB</td>
+                        <td class="jobdata">DCL1</td>
+                        <td class="jobdata">0:00</td>
+
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <div class="six columns">
+        </div>
+    </div>
+</div>
+
+<script src="js/best.js"></script>
+</body>
+</html>
