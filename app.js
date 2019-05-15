@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const request = require('request');
+const algo = require('./match_vm.js')
 var async = require('async');
 
 const vms = [
@@ -62,7 +63,7 @@ app.get('/cpu-usage', function (req, res) {
                 request("http://"+vms[i]+":3000/cpu", function(err, res, body) {
                     // cpudata.push(body)
                     // return err
-                    console.log(body)
+
                     callback(null,JSON.parse(body));
 
                 });
@@ -73,7 +74,7 @@ app.get('/cpu-usage', function (req, res) {
 
     async.parallel(listOfAsyncFunctions,function (err,result) {
         // console.log(result); // result will be the same order as listOfAsyncFunctions
-        console.log(result)
+        //console.log(result)
         return res.json({"result":result})
     });
 
@@ -127,13 +128,25 @@ app.get('/network-stats', function (req, res) {
 });
 
 app.post('/', function(req, res) {
-    let data = {
-        response: 'You sent: ' + req.body
-    };
-
+    //extract domain from request
+    let client_req = req.body
+    let domain = client_req.source.substring(6, client_req.source.indexOf('-'))
+    
+    if(domain === "one")
+	client_req.source = 1
+    else if(domain === "two")
+	client_req.source = 2
+    else
+	client_req.source = 3
+    
+    let vm = algo.VMMatch(client_req)
+    
+    console.log(req.body)
     // Do something, like query a database or save data
-
-    res.status(200).send(req.body);
+    
+    
+    
+    res.status(200).send({vm: vm, layer: client_req.sspecs <= .25? 3 : 2});
 });
 
 module.exports = app;
